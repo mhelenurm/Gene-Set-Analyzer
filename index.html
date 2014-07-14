@@ -1,0 +1,205 @@
+<!--
+ The MIT License (MIT)
+ 
+ Copyright (c) 2014 Mark Helenurm
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ -->
+<html>
+  <head>
+    <title>Gene Set Toolkit</title>
+    <script src="./jquery.js"></script>
+    <script src="./script.js"></script>
+    <link href="./styles.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+    <h1>Gene Set Logic Toolkit</h1>
+    <noscript>
+      <h1>ENABLE JAVASCRIPT FOR FUNCTIONALITY</h1>
+    </noscript>
+    <ul id="toolul"><li class="selected">
+      <a href="#is-div">Input Separator</a></li><li>
+        <a href="#gso-div">Gene Set Operator</a></li><li>
+          <a href="#gts-div">Gene -> Synonyms</a></li><li>
+            <a href="#glrr-div">Gene List Redundancy Remover</a></li><li>
+              <a href="#gnihg-div">Not In HomoloGene</a></li></ul>
+    <div class="blank" id="container">
+      <div id="is-div" name="is-div">
+        <h2>Input Separator</h2>
+        <div class="inner">
+          <form action="">
+            <table id="separatorbox">
+              <tr>
+                <td>Comma:</td>
+                <td><input type="radio" name="sep" value="comma" checked/></td>
+              </tr>
+              <tr>
+                <td>Space:</td>
+                <td><input type="radio" name="sep" value="space"/></td>
+              </tr>
+              <tr>
+                <td>Return:</td>
+                <td><input type="radio" name="sep" value="return"/></td>
+              </tr>
+            </table>
+          </form>
+          <br/>
+          <a class="readmore" link="#isreadmore" href="">(more info)</a>
+          <div id="isreadmore" class="readparagraph">
+            Select the button that represents how your data are delimited. CSV (Comma-separated value) data are delimited by commas (e.g., "val1,val2,val3"). Space-separated data are delimited by spaces (e.g., "val1 val2 val3"). Return-separated data are delimited by newlines (e.g., "val1<br>val2<br>val3").
+          </div>
+        </div>
+      </div>
+      <div id="gso-div" name="gso-div">
+        <h2>Gene Set Operator</h2>
+        <div class="inner">
+          Operation:
+          <select id="gso-opselect">
+            <option value="union">Union</option>
+            <option value="intersect">Intersection</option>
+            <option value="difference">Difference</option>
+            <option value="symdiff">Symmetric Difference</option>
+          </select>
+          <table>
+            <tr>
+              <td>
+                <textarea id="gso-in1" cols="30"></textarea>
+              </td>
+              <td style="width:40px;text-align:center">
+                <span class="accented" id="gso-symbol-text">+</span>
+              </td>
+              <td>
+                <textarea id="gso-in2" cols="30"></textarea>
+              </td>
+              <td>
+                <span class="accented"><a id="gso-go" href="">&rarr;</a></span>
+              </td>
+              <td>
+                <textarea id="gso-out" cols="30" readonly></textarea>
+              </td>
+            </tr>
+          </table>
+          Genes in set A: <span id="gso-Act">0</span><br/>
+          Genes in set B: <span id="gso-Bct">0</span><br/>
+          Genes in result: <span id="gso-rct">0</span><br/>
+          <br/>
+          <a class="readmore" link="#gsoreadmore" href="">(more info)</a>
+          <div id="gsoreadmore" class="readparagraph">
+            This function performs an operation on two sets of gene symbols to produce a third set. The "union" operation takes the two sets and produces the third set from genes that EITHER of the first two sets have. "Intersection" produces the third set from genes that BOTH the first two sets have in common. "difference" produces the third set from genes that are unique to the first set. "Symmetric Difference" produces the third set from genes that are unique to either set (genes that are in either of the sets but NOT both).<br>Note that the "Genes in set x" is the literal count of the number of genes you entered (not number of unique/nonredundant genes). However, "Genes in result" is the number of unique genes in the resulting third set.
+          </div>
+        </div>
+      </div>
+      <div id="gts-div" name="gts-div">
+        <h2>Gene &rarr; Synonyms</h2>
+        <div class="inner">
+          <table>
+            <tr>
+              <td>
+                Gene symbol:<br>
+                <input id="gts-in" type="text"/><br><br>
+                Species:<br>
+                <select id="gts-species" style="width:100%">
+                  <option value="" selected>-Any Species-</option>
+                  <?php
+                    
+                    
+                    $connect = mysqli_connect("localhost","helenurm_geneuse","!4F6.bKV;IP%","helenurm_hombase");
+                    
+                    if(mysqli_connect_errno())
+                    {
+                      echo "Error connecting to DB!";
+                    }
+                  
+                  $query = mysqli_query($connect, "SELECT * FROM taxes");
+                  if($query) {
+                    while($row = mysqli_fetch_array($query)) {
+                      echo '<option value="' . $row["tax_id"] . '">' . $row["species_name"] . '</option>';
+                    }
+                  }
+                  mysqli_close($connect);
+                    ?>
+                </select>
+              </td>
+              <td>
+                <span class="accented"><a id="gts-go" href="">&rarr;</a></span>
+              </td>
+              <td rowspan="2">
+                <textarea id="gts-out" cols="30" readonly></textarea>
+              </td>
+            </tr>
+          </table>
+          <br/>
+          <a class="readmore" link="#gtsreadmore" href="">(more info)</a>
+          <div id="gtsreadmore" class="readparagraph">
+            This function takes a gene symbol and produces a list of synonyms for that gene. Gene synonomy is determined by <a class="outbound" href="http://www.ncbi.nlm.nih.gov/homologene/" target="_blank">HomoloGene</a> (data last refreshed May 2014). By choosing a specific species (also from HomoloGene) in the species drop-down menu, you can limit the synonyms to only synonymous gene symbols that are used in the context of that species.
+          </div>
+        </div>
+      </div>
+      <div id="glrr-div" name="glrr-div">
+        <h2>Gene List Redundancy Remover</h2>
+        <div class="inner">
+          <table>
+            <tr>
+              <td>
+                <textarea id="glrr-in" cols="30"></textarea>
+              </td>
+              <td>
+                <span class="accented"><a id="glrr-go" href="">&rarr;</a></span>
+              </td>
+              <td>
+                <textarea id="glrr-out" cols="30" readonly></textarea>
+              </td>
+            </tr>
+          </table>
+          Genes in original list: <span id="glrr-olct">0</span><br/>
+          Genes removed: <span id="glrr-rmct">0</span><br/>
+          Genes left: <span id="glrr-leftct">0</span><br/>
+          <br/>
+          <a class="readmore" link="#glrrreadmore" href="">(more info)</a>
+          <div id="glrrreadmore" class="readparagraph">
+            This function takes a gene list and produces an alphabetized output list that matches the input minus the duplicates (homologies). It also computes how many gene symbols were in the input list, how many were considered duplicates, and how many are left after removing the duplicates.
+          </div>
+        </div>
+      </div>
+      <div id="gnihg-div" name="gnihg-div">
+        <h2>Genes Not In HomoloGene</h2>
+        <div class="inner">
+          <table>
+            <tr>
+              <td>
+                <textarea id="gnihg-in" cols="30"></textarea>
+              </td>
+              <td>
+                <span class="accented"><a id="gnihg-go" href="">&rarr;</a></span>
+              </td>
+              <td>
+                <textarea id="gnihg-out" cols="30" readonly></textarea>
+              </td>
+            </tr>
+          </table>
+          <br/>
+          <a class="readmore" link="#gnihgreadmore" href="">(more info)</a>
+          <div id="gnihgreadmore" class="readparagraph">
+            This function tells you which genes (from a list) are not in the Homologene database.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

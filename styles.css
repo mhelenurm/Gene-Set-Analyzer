@@ -1,0 +1,150 @@
+/*
+ The MIT License (MIT)
+ 
+ Copyright (c) 2014 Mark Helenurm
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+*/
+
+html,body {
+  margin:0;
+  padding:0;
+}
+
+h1 {
+  text-align:center;
+  font-size:3em;
+  margin:10px 0px;
+  font-family:sans-serif;
+}
+
+h2 {
+  font-family:serif;
+}
+
+div {
+  display:block;
+  margin:20px 0px;
+  clear:both;
+}
+
+.blank {
+  display:block;
+  margin:0 0 0 10px;
+  padding:0;
+}
+
+.inner {
+  margin:0px 0px 0px 10px;
+  padding:0px 0px 0px 20px;
+  border-left:2px solid lightgray;
+}
+
+form {
+  margin:0;
+  border:0;
+  padding:0;
+}
+
+textarea {
+  resize:none;
+  overflow:auto;
+  height:150px;
+}
+
+textarea:focus {
+  -webkit-box-shadow: 0px 0px 10px #419bf9;
+  -moz-box-shadow: 0px 0px 10px #419bf9;
+  box-shadow:0px 0px 10px #419bf9;
+  outline:none;
+}
+
+span.accented {
+  font-size:30px;
+  font-weight:900;
+}
+
+a {
+  font-weight:900;
+  color:black;
+  text-decoration:none;
+  font-family:sans-serif;
+}
+
+a:hover {
+  color:#419bf9;
+  /*text-shadow:0 0 3px #419bf9;*/
+}
+
+a.outbound {
+  font-weight:normal;
+  color:blue;
+  text-decoration:underline;
+  font-family:inherit;
+  font-size:inherit;
+}
+
+a.outbound:hover {
+  text-decoration:none;
+}
+
+a.readmore {
+  padding:10px 0px;
+  font-size:.8em;
+  font-weight:normal;
+  color:#419bf9;
+  text-decoration:underline;
+  font-family:sans-serif;
+}
+
+a.readmore:hover {
+  text-decoration:none;
+}
+
+div.readparagraph {
+  margin:0;
+  padding:0;
+  border:0.5px solid black;
+}
+
+#toolul {
+  display:inline-block;
+  width:100%;
+  border-bottom:1px solid black;
+  margin:auto 0;
+  padding:0 0 0 50px;
+}
+
+#toolul li {
+  display:inline-block;
+  border:1px solid black;
+  border-top-right-radius:20px;
+  border-bottom:none;
+  padding:8px;
+  margin:0;
+}
+
+li.selected {
+  text-shadow:0 0 5px #419bf9;
+  background-color:black;
+}
+
+li.selected *{
+  color:white;
+}
